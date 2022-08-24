@@ -7,15 +7,40 @@ namespace Bloggie.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly ApplicationDbContext _db;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, ApplicationDbContext db)
         {
             _logger = logger;
+            _db = db;
         }
 
-        public IActionResult Index()
+        [Route("")]
+        [Route("c/{slug}")]
+        public IActionResult Index(string slug)
         {
-            return View();
+            var vm = new HomeViewModel()
+            {
+                Categories = _db.Categories.OrderBy(x => x.Name).ToList(),
+                Posts = _db.Posts
+                    .Include(x => x.Author)
+                    .Where(x => slug == null || x.Category.Slug == slug)
+                    .OrderByDescending(x => x.CreatedTime)
+                    .ToList()
+            };
+            return View(vm);
+        }
+
+        [Route("p/{slug}")]
+        public IActionResult Post(string slug)
+        {
+            var post = _db.Posts
+                .Include(x => x.Author)
+                .FirstOrDefault(x => x.Slug == slug);
+
+            if (post == null) return NotFound();
+
+            return View(post);
         }
 
         public IActionResult Privacy()

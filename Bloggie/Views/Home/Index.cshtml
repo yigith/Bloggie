@@ -1,8 +1,37 @@
-﻿@{
+﻿@model HomeViewModel
+@{
     ViewData["Title"] = "Home Page";
 }
+<div class="row">
+    <div class="col-md-9 px-3">
+        @foreach (var item in Model.Posts)
+        {
+            <!-- Post preview-->
+            <div class="post-preview">
+                <a asp-controller="Home" asp-action="Post" asp-route-slug="@item.Slug">
+                    <h2 class="post-title">@item.Title</h2>
+                </a>
+                <div>@Html.Raw(item.Content)</div>
+                <p class="post-meta">
+                    Posted by
+                    <a href="#!">@item.Author.DisplayName</a>
+                    on @item.CreatedTime.ToShortDateString()
+                </p>
+            </div>
+            <!-- Divider-->
+            <hr class="my-4" />
+        }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+        <!-- Pager-->
+        <div class="d-flex justify-content-end mb-4"><a class="btn btn-primary text-uppercase" href="#!">Older Posts →</a></div>
+
+    </div>
+    <div class="col-md-3 px-3">
+        <h4 class="mt-5 mb-3">Categories</h4>
+        @foreach (var item in Model.Categories)
+        {
+            <a asp-controller="Home" asp-action="Index" asp-route-slug="@item.Slug" class="d-block me-2 mb-2 small">@item.Name</a>
+        }
+    </div>
 </div>
+

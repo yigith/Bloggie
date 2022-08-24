@@ -1,0 +1,12 @@
+﻿@model Post
+@{
+    ViewData["Title"] = Model.Title;
+}
+
+<h1>@Model.Title</h1>
+
+<div class="text-muted">
+    Posted by @Model.Author.DisplayName on @Model.CreatedTime.ToShortDateString() 
+</div>
+
+@Html.Raw(Model.Content)
