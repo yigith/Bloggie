@@ -1,14 +1,24 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
-
-namespace Bloggie.Areas.Admin.Controllers
+﻿namespace Bloggie.Areas.Admin.Controllers
 {
-    [Area("Admin")]
-    public class DashboardController : Controller
+    public class DashboardController : AdminBaseController
     {
+        private readonly ApplicationDbContext _db;
+
+        public DashboardController(ApplicationDbContext db)
+        {
+            _db = db;
+        }
+
         public IActionResult Index()
         {
-            return View();
+            var vm = new DashboardViewModel()
+            {
+                CategoryCount = _db.Categories.Count(),
+                PostCount = _db.Posts.Count(),
+                UserCount = _db.Users.Count()
+            };
+
+            return View(vm);
         }
     }
 }

@@ -1,5 +1,63 @@
-﻿@{            
+﻿@model DashboardViewModel
+@{
     ViewData["Title"] = "Dashboard";
 }
 
+<div class="row">
+    <div class="col-lg-3 col-6 text-white">
 
+        <div class="small-box bg-info">
+            <div class="inner">
+                <h3>@Model.CategoryCount</h3>
+                <p>Categories</p>
+            </div>
+            <div class="icon">
+                <i class="fas fa-th-large"></i>
+            </div>
+            <a asp-controller="Categories" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+        </div>
+    </div>
+
+    <div class="col-lg-3 col-6 text-white">
+
+        <div class="small-box bg-success">
+            <div class="inner">
+                <h3>@Model.PostCount</h3>
+                <p>Posts</p>
+            </div>
+            <div class="icon">
+                <i class="fas fa-file-alt"></i>
+            </div>
+            <a asp-controller="Posts" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+        </div>
+    </div>
+
+    <div class="col-lg-3 col-6">
+
+        <div class="small-box bg-warning">
+            <div class="inner">
+                <h3>@Model.UserCount</h3>
+                <p>Users</p>
+            </div>
+            <div class="icon">
+                <i class="fas fa-user"></i>
+            </div>
+            <a asp-controller="Users" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+        </div>
+    </div>
+
+    <div class="col-lg-3 col-6 text-white">
+
+        <div class="small-box bg-danger">
+            <div class="inner">
+                <h3>@Model.CommentCount</h3>
+                <p>Comments</p>
+            </div>
+            <div class="icon">
+                <i class="fas fa-comment"></i>
+            </div>
+            <a asp-controller="Comments" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+        </div>
+    </div>
+
+</div>
