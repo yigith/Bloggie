@@ -9,4 +9,6 @@
     Posted by @Model.Author.DisplayName on @Model.CreatedTime.ToShortDateString() 
 </div>
 
-@Html.Raw(Model.Content)
+<div class="post-content">
+    @Html.Raw(Model.Content)
+</div>

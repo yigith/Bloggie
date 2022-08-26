@@ -24,6 +24,7 @@
 </head>
 
 <body id="page-top">
+    <form name="frmNewPost" asp-controller="Posts" asp-action="Create"></form>
 
     <!-- Page Wrapper -->
     <div id="wrapper">
@@ -68,7 +69,7 @@
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <a class="collapse-item" asp-controller="Categories" asp-action="Index">List All</a>
-                        <a class="collapse-item" asp-controller="Categories" asp-action="New">New Category</a>
+                        <a class="collapse-item" asp-controller="Categories" asp-action="Create">New Category</a>
                     </div>
                 </div>
             </li>
@@ -84,7 +85,7 @@
                      data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <a class="collapse-item" asp-controller="Posts" asp-action="Index">List All</a>
-                        <a class="collapse-item" asp-controller="Posts" asp-action="New">New Post</a>
+                        <a class="collapse-item" href="#!" onclick="newPost()">New Post</a>
                     </div>
                 </div>
             </li>
@@ -375,10 +376,14 @@
     <!-- Core plugin JavaScript-->
     <script src="~/admin/vendor/jquery-easing/jquery.easing.min.js"></script>
 
+    <script src="https://cdn.tiny.cloud/1/vm5ntbjh60njz0rp9q64apkvaiy0ope9pdzjhol4nxnnf5bh/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>  
+
     <!-- Custom scripts for all pages-->
     <script src="~/admin/js/sb-admin-2.min.js"></script>
 
-    @await RenderSectionAsync("Scripts", false) 
+    <script src="~/admin/js/admin.js"></script>
+
+    @await RenderSectionAsync("Scripts", false)
 </body>
 
 </html>

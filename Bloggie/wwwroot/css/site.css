@@ -1,3 +1,8 @@
 .masthead {
     background-image: url('../assets/img/home-bg.jpg') !important;
 }
+
+.post-preview img, .post-content img {
+    max-width: 100%;
+    height: auto;
+}

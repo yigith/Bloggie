@@ -4,6 +4,7 @@
     {
         public int Id { get; set; }
 
+        [Display(Name = "Category")]
         public int CategoryId { get; set; }
 
         [Required, MaxLength(200)]

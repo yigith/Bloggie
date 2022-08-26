@@ -1,7 +1,7 @@
 ﻿namespace Bloggie.Data
 {
     [Index("Slug", IsUnique = true)]
-    public class Post
+    public class Post : ISlug
     {
         public int Id { get; set; }
 
@@ -29,5 +29,10 @@
 
         [ForeignKey("AuthorId")]
         public ApplicationUser Author { get; set; }
+
+        public string GetSlugText()
+        {
+            return Title;
+        }
     }
 }

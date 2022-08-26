@@ -46,30 +46,25 @@ namespace Bloggie.Areas.Admin.Controllers
             return View(post);
         }
 
-        // GET: Admin/Posts/Create
-        public IActionResult Create()
-        {
-            ViewData["AuthorId"] = new SelectList(_context.Users, "Id", "Id");
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Name");
-            return View();
-        }
-
-        // POST: Admin/Posts/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,AuthorId,CategoryId,Title,Slug,Content,IsDraft,CreatedTime,ModifiedTime")] Post post)
+        public async Task<IActionResult> Create()
         {
-            if (ModelState.IsValid)
+            if (!_context.Categories.Any()) 
+                return RedirectToAction("Create", "Categories");
+
+            var post = new Post()
             {
-                _context.Add(post);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["AuthorId"] = new SelectList(_context.Users, "Id", "Id", post.AuthorId);
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Name", post.CategoryId);
-            return View(post);
+                Title = "New Post",
+                IsDraft = true,
+                CategoryId = _context.Categories.First().Id,
+                AuthorId = User.FindFirstValue(ClaimTypes.NameIdentifier)
+            };
+            _context.Add(post);
+            await _context.SaveChangesAsync();
+            TempData["Message"] = "A new post has been created. Now you can make changes and save.";
+
+            return RedirectToAction("Edit", new { Id = post.Id });
         }
 
         // GET: Admin/Posts/Edit/5
@@ -87,7 +82,14 @@ namespace Bloggie.Areas.Admin.Controllers
             }
             ViewData["AuthorId"] = new SelectList(_context.Users, "Id", "Id", post.AuthorId);
             ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Name", post.CategoryId);
-            return View(post);
+            return View(new EditPostViewModel() 
+            {
+                Id = post.Id,
+                CategoryId = post.CategoryId,
+                Content = post.Content,
+                IsDraft = post.IsDraft,
+                Title = post.Title
+            });
         }
 
         // POST: Admin/Posts/Edit/5
@@ -130,7 +132,7 @@ namespace Bloggie.Areas.Admin.Controllers
             }
             ViewData["AuthorId"] = new SelectList(_context.Users, "Id", "Id", post.AuthorId);
             ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Name", post.CategoryId);
-            return View(post);
+            return View(vm);
         }
 
         // GET: Admin/Posts/Delete/5
