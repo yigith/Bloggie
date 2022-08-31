@@ -11,6 +11,8 @@ global using Microsoft.AspNetCore.Mvc;
 global using Bloggie.Areas.Admin.Models;
 global using Bloggie.Interfaces;
 using Microsoft.AspNetCore.Authentication.Google;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using Bloggie.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,6 +34,7 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.R
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
+builder.Services.AddTransient<IEmailSender, EmailSender>();
 
 var app = builder.Build();
 

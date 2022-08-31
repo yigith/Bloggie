@@ -1,0 +1,27 @@
+﻿@inject UserManager<ApplicationUser> _userManager; 
+@model List<ApplicationUser>
+@{
+    ViewData["Title"] = "Users";
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>User Name</th>
+            <th>Display Name</th>
+            <th>Roles</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>@user.UserName</td>
+                <td>@user.DisplayName</td>
+                <td>
+                    @string.Join(", ", await _userManager.GetRolesAsync(user))
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
