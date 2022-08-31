@@ -23,7 +23,20 @@
         }
 
         <!-- Pager-->
-        <div class="d-flex justify-content-end mb-4"><a class="btn btn-primary text-uppercase" href="#!">Older Posts →</a></div>
+        <div class="d-flex justify-content-between mb-4">
+            <div>
+                @if (Model.HasNewer)
+                {
+                    <a class="btn btn-primary text-uppercase" asp-route-pid="@(Model.Page - 1)">← Newer Posts</a>
+                }
+            </div>
+            <div>
+                @if (Model.HasOlder)
+                {
+                    <a class="btn btn-primary text-uppercase" asp-route-pid="@(Model.Page + 1)">Older Posts →</a>
+                }
+            </div>
+        </div>
 
     </div>
     <div class="col-md-3 px-3">

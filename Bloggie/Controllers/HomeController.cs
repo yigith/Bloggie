@@ -17,17 +17,26 @@ namespace Bloggie.Controllers
 
         [Route("")]
         [Route("c/{slug}")]
-        public IActionResult Index(string slug)
+        public IActionResult Index(string slug, int pid = 1)
         {
+            var posts = _db.Posts
+                    .Include(x => x.Author)
+                    .Where(x => slug == null || x.Category.Slug == slug)
+                    .Where(x => !x.IsDraft);
+            int postCount = posts.Count();
+            int pageCount = (int)Math.Ceiling((double)postCount / Constants.POSTS_PER_PAGE);
+
             var vm = new HomeViewModel()
             {
                 Categories = _db.Categories.OrderBy(x => x.Name).ToList(),
-                Posts = _db.Posts
-                    .Include(x => x.Author)
-                    .Where(x => slug == null || x.Category.Slug == slug)
-                    .Where(x => !x.IsDraft)
+                Posts = posts
                     .OrderByDescending(x => x.CreatedTime)
-                    .ToList()
+                    .Skip((pid - 1) * Constants.POSTS_PER_PAGE)
+                    .Take(Constants.POSTS_PER_PAGE)
+                    .ToList(),
+                Page = pid,
+                HasNewer = pid > 1,
+                HasOlder = pid < pageCount,
             };
             return View(vm);
         }
